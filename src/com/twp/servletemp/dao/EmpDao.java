@@ -21,6 +21,11 @@ public class EmpDao extends BaseDAO<Employee> {
         else return null;
     }
 
+    public int deleteById(int id) throws Exception {
+        String sql = "DELETE FROM t_emp WHERE id=?";
+        return deleteById(sql, id);
+    }
+
     @Override
     public Employee toEntity(ResultSet rs) throws Exception {
         int id = rs.getInt("id");

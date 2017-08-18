@@ -8,9 +8,19 @@
         <servlet-name>empServlet</servlet-name>
         <servlet-class>com.twp.servletemp.servlet.EmpServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>actionServlet</servlet-name>
+        <servlet-class>com.twp.servletemp.servlet.ActionServlet</servlet-class>
+        <!-- 这个节点表示，容器一启动就实例化Servlet，中间的数字是优先级。数字越小，优先级越高 -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>empServlet</servlet-name>
         <url-pattern>/emp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>actionServlet</servlet-name>
+        <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -1,7 +1,6 @@
 package com.twp.servletemp.dao;
 
 
-
 import com.twp.servletemp.util.DBUtil;
 
 import java.sql.Connection;
@@ -49,6 +48,18 @@ public abstract class BaseDAO<T> {
             DBUtil.close(conn);
         }
         return list;
+    }
+
+    protected int deleteById(String sql, int id) throws Exception {
+        Connection conn = null;
+        PreparedStatement pst = null;
+        conn = DBUtil.getDbConnection();
+        pst = conn.prepareStatement(sql);
+        pst.setInt(1, id);
+        int result = pst.executeUpdate();
+        DBUtil.close(pst);
+        DBUtil.close(conn);
+        return result;
     }
 
     /**
