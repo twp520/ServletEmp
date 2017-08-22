@@ -6,6 +6,7 @@ import com.twp.servletemp.util.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,13 @@ public abstract class BaseDAO<T> {
         return list;
     }
 
+    /***
+     * 根据id删除
+     * @param sql
+     * @param id
+     * @return
+     * @throws Exception
+     */
     protected int deleteById(String sql, int id) throws Exception {
         Connection conn = null;
         PreparedStatement pst = null;
@@ -61,6 +69,7 @@ public abstract class BaseDAO<T> {
         DBUtil.close(conn);
         return result;
     }
+
 
     /**
      * 将resultSet转换成实体类

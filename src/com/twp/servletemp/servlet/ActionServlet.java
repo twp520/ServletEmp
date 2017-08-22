@@ -23,22 +23,20 @@ public class ActionServlet extends HttpServlet {
         uri = uri.substring(uri.lastIndexOf("/"), uri.lastIndexOf("."));
         EmpDao dao = new EmpDao();
         try {
-            if (uri.equals("/list")) {
+            if (uri.equals("/list")) {//查询
                 List<Employee> all = dao.findAll();
-                writer.println("<table border='1' width='500px'>");
-                all.stream().forEach(employee -> {
-                    writer.println("<tr>");
-                    writer.println("<td>" + employee.getId() + "</td>");
-                    writer.println("<td>" + employee.getName() + "</td>");
-                    writer.println("<td>" + employee.getAge() + "</td>");
-                    writer.println("<td>" + employee.getSalary() + "</td>");
-                    writer.println("<td><a href='delete.do?id=" + employee.getId() + "'>删除</a></td>");
-                    writer.println("<td><a href='load.do'>修改</a></td>");
-                    writer.println("</tr>");
-                });
-                writer.println("</table>");
-            } else if (uri.equals("/add")) {
-
+                //将数据交给jsp进行展示
+                req.setAttribute("emps", all);
+                req.getRequestDispatcher("listEmp.jsp").forward(req, resp);
+            } else if (uri.equals("/add")) {//增加
+                String name = req.getParameter("name");
+                int age = Integer.parseInt(req.getParameter("age"));
+                double salary = Double.parseDouble(req.getParameter("salary"));
+                Employee employee = new Employee(name, age, salary);
+                int result = dao.addEmp(employee);
+                if (result == 1) {
+                    resp.sendRedirect("list.do");
+                } else writer.println("添加失败");
             } else if (uri.equals("/delete")) {
                 String id = req.getParameter("id");
                 int result = dao.deleteById(Integer.parseInt(id));
@@ -46,9 +44,20 @@ public class ActionServlet extends HttpServlet {
                     resp.sendRedirect("list.do");
                 } else writer.println("删除失败");
             } else if (uri.equals("/load")) {
-
+                String id = req.getParameter("id");
+                Employee employee = dao.findById(Integer.parseInt(id));
+                req.setAttribute("emp", employee);
+                req.getRequestDispatcher("updateEmp.jsp").forward(req, resp);
             } else if (uri.equals("/update")) {
-
+                int id = Integer.parseInt(req.getParameter("id"));
+                String name = req.getParameter("name");
+                int age = Integer.parseInt(req.getParameter("age"));
+                double salary = Double.parseDouble(req.getParameter("salary"));
+                Employee employee = new Employee(id, name, age, salary);
+                int result = dao.updateEmpById(employee);
+                if (result == 1) {
+                    resp.sendRedirect("list.do");
+                } else writer.println("更新失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
