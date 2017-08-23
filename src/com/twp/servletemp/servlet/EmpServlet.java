@@ -19,10 +19,6 @@ public class EmpServlet extends HttpServlet {
         EmpDao empDao = new EmpDao();
         try {
             List<Employee> all = empDao.findAll();
-            all.stream().forEach(employee -> {
-                writer.println(employee.toString());
-                writer.println("<br/>");
-            });
         } catch (Exception e) {
             e.printStackTrace();
         }finally {

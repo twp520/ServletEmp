@@ -1,7 +1,9 @@
 package com.twp.servletemp.servlet;
 
 import com.twp.servletemp.dao.EmpDao;
+import com.twp.servletemp.dao.UserDao;
 import com.twp.servletemp.entity.Employee;
+import com.twp.servletemp.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -58,6 +60,18 @@ public class ActionServlet extends HttpServlet {
                 if (result == 1) {
                     resp.sendRedirect("list.do");
                 } else writer.println("更新失败");
+            } else if (uri.equals("/reg")) {//注册
+                String name = req.getParameter("username");
+                UserDao userDao = new UserDao();
+                User user = userDao.findByName(name);
+                if (user != null && user.getUserName().equals(name)) {
+                    //已经存在
+                    req.setAttribute("msg", "该用户已经存在！");
+                    req.getRequestDispatcher("regist.jsp").forward(req, resp);
+                } else {
+                    //执行注册
+                    writer.println("注册成功！");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
