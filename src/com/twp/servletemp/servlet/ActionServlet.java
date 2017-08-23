@@ -37,18 +37,18 @@ public class ActionServlet extends HttpServlet {
                 if (result == 1) {
                     resp.sendRedirect("list.do");
                 } else writer.println("添加失败");
-            } else if (uri.equals("/delete")) {
+            } else if (uri.equals("/delete")) {//删除
                 String id = req.getParameter("id");
                 int result = dao.deleteById(Integer.parseInt(id));
                 if (result == 1) {
                     resp.sendRedirect("list.do");
                 } else writer.println("删除失败");
-            } else if (uri.equals("/load")) {
+            } else if (uri.equals("/load")) {//根据id查询
                 String id = req.getParameter("id");
                 Employee employee = dao.findById(Integer.parseInt(id));
                 req.setAttribute("emp", employee);
                 req.getRequestDispatcher("updateEmp.jsp").forward(req, resp);
-            } else if (uri.equals("/update")) {
+            } else if (uri.equals("/update")) {//更新
                 int id = Integer.parseInt(req.getParameter("id"));
                 String name = req.getParameter("name");
                 int age = Integer.parseInt(req.getParameter("age"));
